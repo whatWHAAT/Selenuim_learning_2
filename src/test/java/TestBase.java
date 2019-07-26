@@ -1,6 +1,7 @@
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -35,7 +36,7 @@ public class TestBase {
             return;
         }
 
-        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
         tlDriver.set(driver);
         wait = new WebDriverWait(driver, 10);
 

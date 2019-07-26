@@ -7,6 +7,7 @@ public class Locators extends TestBase {
     public static final By LOGOTYPE = By.xpath("//span[text()='Logotype']");
     public static final By CATALOG = By.xpath("//span[text()='Catalog']");
     public static final By PRODUCT_GROUPS = By.xpath("//span[@class='name' and text()='Product Groups']");
+    public static final By COUNTRIES = By.xpath("//span[contains(text(), 'Countries')]");
 
     public static final By HEADER = By.xpath("//h1[starts-with(@style,'margin-top')]");
 
