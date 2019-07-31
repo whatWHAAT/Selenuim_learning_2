@@ -2,6 +2,7 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -11,21 +12,8 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
 
     public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
-    public WebDriver driver;
+    public static WebDriver driver;
     public WebDriverWait wait;
-
-    public void loginToAdminPart() {
-        driver.navigate().to("http://localhost/litecart/admin/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin");
-        driver.findElement(By.name("login")).click();
-    }
-
-    public void loginToStore() {
-        driver.navigate().to("http://localhost/litecart/en/");
-
-    }
 
 
     @BeforeTest
@@ -50,4 +38,26 @@ public class TestBase {
 //        driver.quit();
 //        driver = null;
     }
+
+    public void loginToAdminPart() {
+        driver.navigate().to("http://localhost/litecart/admin/");
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.findElement(By.name("username")).sendKeys("admin");
+        driver.findElement(By.name("password")).sendKeys("admin");
+        driver.findElement(By.name("login")).click();
+    }
+
+    public void loginToStore(String password, String email, WebDriverWait wait) {
+        driver.findElement(By.name("email")).clear();
+        driver.findElement(By.name("email")).sendKeys(email);
+        driver.findElement(By.name("password")).clear();
+        driver.findElement(By.name("password")).sendKeys(password);
+        driver.findElement(By.name("login")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(Locators.LOGOUT_BUTTON));
+    }
+
+    public void logout() {
+        driver.findElement(Locators.LOGOUT_BUTTON).click();
+    }
+
 }

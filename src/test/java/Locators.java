@@ -12,4 +12,8 @@ public class Locators extends TestBase {
     public static final By HEADER = By.xpath("//h1[starts-with(@style,'margin-top')]");
 
     public static final By STICKER = By.xpath("//img[contains(@class,'sticker')]");
+
+    public static final By LOGOUT_BUTTON = By.xpath("//div[@class='content']//a[contains(text(),'Logout')]");
+    public static final By ADD_NEW_PRODUCT = By.xpath("//a[contains(text(),'Add New Product')]");
+
 }
