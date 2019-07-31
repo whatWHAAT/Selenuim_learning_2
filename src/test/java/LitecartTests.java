@@ -1,21 +1,53 @@
-import com.google.common.io.LittleEndianDataInputStream;
-import com.sun.jdi.LocalVariable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class LitecartTests extends TestBase {
+
+    @Test
+    public void testNewWindows() {
+        loginToAdminPart();
+        driver.findElement(By.xpath("//span[contains(text(),'Countries')]")).click();
+        driver.findElement(By.xpath("//a[contains(text(),'Algeria')]")).click();
+        String mainWindow = driver.getWindowHandle();
+        Set<String> oldWindows = driver.getWindowHandles();
+
+        driver.findElement(By.xpath("//a[contains(@href,'www.addressdoctor.com/en/countries-data/address-formats.html')]")).click();
+        String newWindow = wait.until(anyWindowOtherThan(oldWindows));
+        driver.switchTo().window(newWindow);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h1[contains(text(), 'Address Formats')]"))));
+        driver.close();
+
+        driver.switchTo().window(mainWindow);
+
+        driver.findElement(By.xpath("//a[contains(@href, 'en.wikipedia.org/wiki/ISO_3166-1_alpha-3')]")).click();
+        String newWindow2 = wait.until(anyWindowOtherThan(oldWindows));
+        driver.switchTo().window(newWindow2);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h1[@id='firstHeading']"))));
+    }
+
+    public ExpectedCondition<String> anyWindowOtherThan(Set<String> oldWindows) {
+        return new ExpectedCondition<String>() {
+            public String apply(WebDriver driver) {
+                Set<String> handles = driver.getWindowHandles();
+                handles.removeAll(oldWindows);
+                return handles.size()> 0 ? handles.iterator().next() : null;
+            }
+        };
+    }
 
     @Test
     public void addNewProduct() {

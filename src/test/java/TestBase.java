@@ -35,7 +35,7 @@ public class TestBase {
 
     @AfterTest
     public void stop() {
-//        driver.quit();
+        driver.quit();
 //        driver = null;
     }
 
