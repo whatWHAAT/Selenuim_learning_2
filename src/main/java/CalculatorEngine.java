@@ -12,7 +12,7 @@ public class CalculatorEngine implements ActionListener {
     CalculatorEngine(Calculator parent) {
         this.parent = parent;
     }
-
+//test
     public void actionPerformed(ActionEvent e) {
 // Получить источник действия
         JButton clickedButton = (JButton) e.getSource();
